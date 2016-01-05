@@ -15,7 +15,9 @@ public :
   Listener(const char* portname, BlockingQueue<char*>* queue_);
   ~Listener();
   void* run();
-  void* start();
+  void start();
+  
+  void write(char* msg);
   
 private : 
   Serial* serialport;

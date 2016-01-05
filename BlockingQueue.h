@@ -33,13 +33,32 @@ template <typename T> class BlockingQueue{
     T pop(){
         pthread_mutex_lock(&m_mutex);
         while(m_queue.size() == 0){
-            pthread_cond_wait(&m_condv, &m_mutex);
+            
         }
         T item = m_queue.front();
         m_queue.pop_front();
         pthread_mutex_unlock(&m_mutex);
         return item;
     };
+    
+    T pop(int time){
+        //time_t ts;
+        //clock_gettime(CLOCK_REALTIME, &ts);
+        
+        pthread_mutex_lock(&m_mutex);
+        while(m_queue.size() == 0){
+            pthread_cond_wait(&m_condv, &m_mutex);
+            //pthread_cond_timedwait(&m_condv, &m_mutex);
+        }
+        
+        T item = m_queue.front();
+        m_queue.pop_front();
+        pthread_mutex_unlock(&m_mutex);
+        return item;
+        // à écrire
+    }
+    
+    
     int size(){
         pthread_mutex_lock(&m_mutex);
         int size = m_queue.size();

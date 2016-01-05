@@ -21,12 +21,17 @@ void* Listener::run(){
     int status = serialport->readLine(line);
     recvd->add(line);
   }
+    return 0;
 };
 
 
-void* Listener::start(){
+void Listener::start(){
     Thread *th;
     th = new Thread(std::auto_ptr<Runnable>(this),false,Thread::FIFO,2);
     th->start();
 
+};
+
+void Listener::write(char* msg){
+  serialport->writeString(msg);
 };
